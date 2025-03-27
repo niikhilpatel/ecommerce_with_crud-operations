@@ -8,7 +8,7 @@ const Navbar = () => {
     return (
         <div className="flex justify-between p-4">
             <div className="flex ">
-                <img src={Logo} alt="logo" className="w-40 h-20 pb-2 rounded-md"/>
+                <img onClick={() => navigate("/")} src={Logo} alt="logo" className="w-40 h-20 pb-2 rounded-md"/>
                 {/* <a className="font-bold text-4xl">LaceUp Hub</a> */}
             </div>
             <div className="mr-8 mt-2">
