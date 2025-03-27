@@ -1,20 +1,28 @@
-import React from 'react'
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
-const Hero = () => {
+const Category = () => {
+  const navigate = useNavigate(); // React Router hook for navigation
+
   return (
-    <div className='h-screen'>
-      <div className='flex'>
-        <div className='flex-1 p-3'>
-          <img src='https://nypost.com/wp-content/uploads/sites/2/2023/07/bestkidssneakers.jpg?resize=1536,1024&quality=75&strip=all' className='rounded-xl'/>
-        </div>
-        <div className='flex-1 p-5'>
-          <h2 className='text-3xl font-bold mb-5'>Welcome to The LaceUp Hub</h2>
-          <p className='mb-5'>Find the best sneakers for you</p>
-          <button className='bg-green-600 text-white p-2 rounded-lg'>Shop Now</button>
-        </div>
+    <div className="flex flex-col justify-center items-center gap-6 px-10 pb-20 pt-10">
+      {/* Image Container */}
+      <div className="relative shadow-lg">
+        <img
+          src="https://static.nike.com/a/images/f_auto/dpr_1.5,cs_srgb/h_1546,c_limit/6de75a94-187f-481e-9f36-9e3f367e795f/nike-just-do-it.jpg"
+          alt="Nike Just Do It"
+          className="w-full h-auto rounded-lg"
+        />
+        {/* Shop Button */}
+        <button
+          onClick={() => navigate('/shop')}
+          className="absolute bottom-5 left-1/2 transform -translate-x-1/2 bg-white text-black py-2 px-6 rounded-full border-2 border-yellow-400 font-semibold hover:bg-yellow-400 transition duration-300"
+        >
+          Shop
+        </button>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Hero
+export default Category;
