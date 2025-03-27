@@ -1,12 +1,28 @@
-import React from "react";
-import { useLocation } from "react-router-dom";
+import React, { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const BuyPage = () => {
     const location = useLocation();
-    const item = location.state?.item;
+    const navigate = useNavigate();
+    const initialItem = location.state?.item ? { ...location.state.item, quantity: location.state.item.quantity || 1, total: (location.state.item.quantity || 1) * location.state.item.price } : null;
+    const [item, setItem] = useState(initialItem);
 
     const handleGoBack = () => {
         window.history.back();
+    };
+
+    const increaseQuantity = () => {
+        setItem(prevItem => ({ ...prevItem, quantity: prevItem.quantity + 1, total: (prevItem.quantity + 1) * prevItem.price }));
+    };
+
+    const decreaseQuantity = () => {
+        if (item.quantity > 1) {
+            setItem(prevItem => ({ ...prevItem, quantity: prevItem.quantity - 1, total: (prevItem.quantity - 1) * prevItem.price }));
+        }
+    };
+
+    const removeItem = () => {
+        setItem(null);
     };
 
     return (
@@ -25,11 +41,30 @@ const BuyPage = () => {
                         </div>
                     </div>
 
-                    <div>
-                        <p>Quantity : {item.quantity}</p>
-                        <p className="font-bold">Rs. {item.price}</p>
-                        <button className="bg-green-600 text-white p-2 rounded-lg mt-3">Proceed to Payment</button>
+                    <div className="mr-10">
+                        <p>Quantity: {item.quantity}</p>
+                        <p className="font-bold">Rs. {item.total}</p>
+                        <div className="flex items-center gap-2 mt-2">
+                            <button onClick={decreaseQuantity} className="bg-gray-300 px-2 py-1 rounded-lg">-</button>
+                            <span>{item.quantity}</span>
+                            <button onClick={increaseQuantity} className="bg-gray-300 px-2 py-1 rounded-lg">+</button>
+                        </div>
+                        <div className="mt-3">
+                            <div className="flex justify-between font-semibold">
 
+                                <h6>Select Size</h6>
+                                <a href="https://www.nike.com/in/size-fit/unisex-footwear-mens-based">Size Chart</a>
+                            </div>
+                            <ul className="grid grid-cols-2 gap-2 cursor-pointer mt-2">
+                                <li className="border-1 border-blue-200 rounded-xl p-1 text-center hover:bg-blue-200">UK 6</li>
+                                <li className="border-1 border-blue-200 rounded-xl p-1 text-center hover:bg-blue-200">UK 7</li>
+                                <li className="border-1 border-blue-200 rounded-xl p-1 text-center hover:bg-blue-200">UK 8</li>
+                                <li className="border-1 border-blue-200 rounded-xl p-1 text-center hover:bg-blue-200">UK 9</li>
+                                <li className="border-1 border-blue-200 rounded-xl p-1 text-center hover:bg-blue-200">UK 10</li>
+                            </ul>
+                        </div>
+                        <button className="bg-green-600 text-white p-2 rounded-lg mt-3">Proceed to Payment</button>
+                        <button onClick={removeItem} className="bg-red-600 text-white px-3 py-1 rounded-lg mt-3 ml-2">Remove Item</button>
                     </div>
                 </div>
             ) : (
