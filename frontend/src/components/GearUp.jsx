@@ -14,9 +14,9 @@ const GearUpCards = () => {
     const navigate = useNavigate();
 
     return (
-        <div className='p-10'>
+        <div className='p-2 md:p-10'>
             <h1 className='text-2xl font-bold mb-6'>GEAR UP FOR SPORTS</h1>
-            <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6'>
+            <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6'>
                 {GearUp.map((gear) => (
                     <div 
                         key={gear.id} 

@@ -29,13 +29,13 @@ const Cards = () => {
         <div className="min-h-screen bg-gray-100 p-10">
             <h1 className="text-3xl font-bold text-center mb-6">Featured Products</h1>
             <div>
-              <ul className="flex gap-5 p-2">
-                <li>Sort by</li>
-                <li>Popularity</li>
-                <li>Price - Low to High</li>
-                <li>Price - High to Low</li>
-                <li>Relevance</li>
-              </ul>
+                <ul className="flex gap-5 p-2">
+                    <li>Sort by</li>
+                    <li>Popularity</li>
+                    <li>Price - Low to High</li>
+                    <li>Price - High to Low</li>
+                    <li>Relevance</li>
+                </ul>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -45,7 +45,7 @@ const Cards = () => {
                         <h2 className="text-xl font-semibold">{card.title}</h2>
                         <p className="text-gray-600">{card.description}</p>
                         <p className="text-lg font-bold mt-2">Rs. {card.price}</p>
-                        
+
                         {/* <div className="flex justify-center items-center gap-4 mt-4">
                             <button className="bg-gray-300 text-black px-3 py-2 rounded-lg" onClick={() => removeFromCart(card)}>
                                 -

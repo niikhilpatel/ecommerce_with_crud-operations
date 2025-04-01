@@ -28,7 +28,7 @@ const BuyPage = () => {
     return (
         <div className="p-5">
             <div className="flex gap-5 items-center">
-                <h2 className="text-xl font-bold mb-4">Few steps away from the purchase</h2>
+                <h2 className="text-xl font-bold">Few steps away from the purchase</h2>
                 <button onClick={handleGoBack} className="bg-green-700 text-white px-2 py-1 rounded-lg">Go Back</button>
             </div>
             {item ? (
@@ -36,8 +36,8 @@ const BuyPage = () => {
                     <div>
                         <h3 className="font-bold mb-3 text-4xl">{item.title}</h3>
                         <div className="flex gap-5">
-                            <img src={item.image} alt={item.title} className="w-1/3 rounded-md" />
-                            <p className="mt-2">{item.description}</p>
+                            <img src={item.image} alt={item.title} className="w-2/3 rounded-xl" />
+                            <p className="mt-2 text-2xl font-semibold">{item.description}</p>
                         </div>
                     </div>
 
@@ -63,7 +63,21 @@ const BuyPage = () => {
                                 <li className="border-1 border-blue-200 rounded-xl p-1 text-center hover:bg-blue-200">UK 10</li>
                             </ul>
                         </div>
-                        <button className="bg-green-600 text-white p-2 rounded-lg mt-3">Proceed to Payment</button>
+                        <button onClick={() => createRazorpayOrder(100)} className="bg-green-600 text-white p-2 rounded-lg mt-3">Proceed to Payment</button>
+                        {responseId && <p>{responseId}</p>}
+                        <form onSubmit={paymentFetch}>
+                            <input type="text" name="paymentId"/>
+                            <button type="submit">Fetch Payment</button>
+                            {responseState.length !== 0 && (
+                                <ul>
+                                    <li>Amount: {response.amount /100} Rs.</li>
+                                    <li>Currency: {response.currency}</li>
+                                    <li>Status: {response.status}</li>
+                                    <li>Method: {response.method}</li>
+                                </ul>
+                            )}
+                            
+                        </form>
                         <button onClick={removeItem} className="bg-red-600 text-white px-3 py-1 rounded-lg mt-3 ml-2">Remove Item</button>
                     </div>
                 </div>

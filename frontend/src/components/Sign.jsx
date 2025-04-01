@@ -34,63 +34,67 @@ const SignUp = () => {
     };
 
     return (
-        <div className="flex justify-center items-center min-h-screen bg-gray-100">
-            <div className="bg-white p-6 rounded-lg shadow-md w-96">
-                <h2 className="text-2xl font-bold mb-4 text-center">Sign Up</h2>
-                <form onSubmit={handleSubmit} className="space-y-4">
-                    <div>
-                        <label className="block text-gray-700">Name</label>
-                        <input
-                            type="text"
-                            name="name"
-                            value={formData.name}
-                            onChange={handleChange}
-                            className="w-full p-2 border rounded"
-                        />
-                        {errors.name && <p className="text-red-500 text-sm">{errors.name}</p>}
-                    </div>
+        <div className="flex justify-center items-center">
+            {/* Gradient Border Wrapper */}
+            <div className="relative p-1 bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 rounded-2xl">
+                {/* Inner Card with White Background */}
+                <div className="bg-white p-3 rounded-xl shadow-md w-75">
+                    <h2 className="text-2xl font-bold mb-2 text-center">Sign Up</h2>
+                    <form onSubmit={handleSubmit} className="space-y-4">
+                        <div className="flex items-center gap-3">
+                            <label className="block text-gray-700">Name</label>
+                            <input
+                                type="text"
+                                name="name"
+                                value={formData.name}
+                                onChange={handleChange}
+                                className="w-full p-1 border rounded focus:outline-none focus:ring-2 focus:ring-pink-400"
+                            />
+                            {errors.name && <p className="text-red-500 text-sm">{errors.name}</p>}
+                        </div>
 
-                    <div>
-                        <label className="block text-gray-700">Email</label>
-                        <input
-                            type="email"
-                            name="email"
-                            value={formData.email}
-                            onChange={handleChange}
-                            className="w-full p-2 border rounded"
-                        />
-                        {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
-                    </div>
+                        <div className="flex items-center gap-3">
+                            <label className="block text-gray-700">Email</label>
+                            <input
+                                type="email"
+                                name="email"
+                                value={formData.email}
+                                onChange={handleChange}
+                                className="w-full p-1 border rounded focus:outline-none focus:ring-2 focus:ring-pink-400"
+                            />
+                            {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
+                        </div>
 
-                    <div>
-                        <label className="block text-gray-700">Password</label>
-                        <input
-                            type="password"
-                            name="password"
-                            value={formData.password}
-                            onChange={handleChange}
-                            className="w-full p-2 border rounded"
-                        />
-                        {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
-                    </div>
+                        <div className="flex items-center gap-3">
+                            <label className="block text-gray-700">Password</label>
+                            <input
+                                type="password"
+                                name="password"
+                                value={formData.password}
+                                onChange={handleChange}
+                                className="w-full p-1 border rounded focus:outline-none focus:ring-2 focus:ring-pink-400"
+                            />
+                            {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
+                        </div>
 
-                    <button
-                        type="submit"
-                        className="w-full bg-gray-900 text-white p-2 rounded-lg"
-                    >
-                        Sign Up
-                    </button>
-                </form>
+                        <button
+                            type="submit"
+                            className="w-full bg-gray-900 text-white p-2 rounded-lg hover:bg-gray-800 transition"
+                        >
+                            Sign Up
+                        </button>
+                    </form>
 
-                <p className="text-sm mt-4 text-center">
-                    Already have an account?{" "}
-                    <button
-                        onClick={() => navigate("/sign-in")}
-                        className="text-blue-500 underline"
-                    >
-                        Sign in
-                    </button>
-                </p>
+                    <p className="text-sm mt-3 text-center">
+                        Already have an account?{" "}
+                        <button
+                            onClick={() => navigate("/sign-in")}
+                            className="text-blue-500 underline"
+                        >
+                            Sign in
+                        </button>
+                    </p>
+                </div>
             </div>
         </div>
     );

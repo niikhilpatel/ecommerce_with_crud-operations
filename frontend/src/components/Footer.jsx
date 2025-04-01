@@ -3,10 +3,10 @@ import React from 'react';
 const Footer = () => {
   return (
     <footer className="bg-black text-white py-8 px-4 md:px-16">
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
         <div>
           <h4 className="font-bold mb-4">SUPPORT</h4>
-          <ul className="space-y-2">
+          <ul className="space-y-2 cursor-pointer">
             <li>Contact us</li>
             <li>Promotions & Sale</li>
             <li>Track Order</li>
@@ -20,7 +20,7 @@ const Footer = () => {
 
         <div>
           <h4 className="font-bold mb-4">ABOUT</h4>
-          <ul className="space-y-2">
+          <ul className="space-y-2 cursor-pointer">
             <li>GO WILD</li>
             <li>Company</li>
             <li>Corporate News</li>
@@ -29,7 +29,7 @@ const Footer = () => {
             <li>Sustainability</li>
             <li>Careers</li>
             <li>Store Locator</li>
-            <li>PUMA Articles</li>
+            <li>LaceUp HUB Articles</li>
           </ul>
         </div>
 
@@ -55,20 +55,12 @@ const Footer = () => {
             <img src="/payment-icons.png" alt="Payment Methods" className="mx-auto md:mx-0" />
           </div>
           <button className="border rounded-lg px-4 py-2 inline-flex items-center mx-auto md:mx-0">
-            <span className="mr-2">\ud83c\uddee\ud83c\uddf3</span> INDIA
+            <span className="mr-2">Razorpay |</span> INDIA
           </button>
-          <p className="text-sm mt-4">&copy; PUMA INDIA LTD, 2025. ALL RIGHTS RESERVED.</p>
+          <p className="text-sm mt-4">&copy; LACEUP HUB INDIA LTD, 2025. <br/><span>ALL RIGHTS RESERVED.</span></p>
           <a href="#" className="text-sm underline">IMPRINT AND LEGAL DATA</a>
         </div>
       </div>
-        <div className=''>
-          <div className='mb-10 m-5 '>
-            <h2 className='font-bold'>LaceUp Hub</h2>
-
-
-          </div>
-          <div className='flex justify-center items-center px-4 py-6 text-xl font-bold '>All right reserved @2025 : LaceUp Hub</div>
-        </div>
     </footer>
   );
 };
