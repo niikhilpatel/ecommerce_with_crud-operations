@@ -53,5 +53,5 @@ We welcome contributions! To contribute:
 This project is licensed under the MIT License.
 
 ## Contact
-For inquiries, reach out to [your email] or visit our [website](https://laceuphub.com).
+For inquiries, reach out to [nikhildevcode@gmail.com] or visit our [website](https://nikhildevcode.vercel.app/).
 
