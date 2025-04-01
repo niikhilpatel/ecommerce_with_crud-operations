@@ -22,11 +22,11 @@ Laceup Hub is a modern and sleek web platform designed to revolutionize the way 
 
 1. Clone the repository:
    ```sh
-   git clone https://github.com/yourusername/laceup-hub.git
+   git clone https://github.com/niikhilpatel/LaceUp-HUB.git
    ```
 2. Navigate to the project directory:
    ```sh
-   cd laceup-hub
+   cd LaceUp-HUB
    ```
 3. Install dependencies:
    ```sh
