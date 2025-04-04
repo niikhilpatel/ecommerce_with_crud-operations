@@ -1,22 +1,22 @@
-import React from 'react'
-import Hero from '../components/Hero'
-import Suggestions from '../components/Suggestions'
-import Category from '../components/Category'
-import GearUp from '../components/GearUp'
-import Celebrity from '../components/Celebrity'
-import HimHerPage from '../components/HimHerPage'
+import React from 'react';
+import Hero from '../components/Hero';
+import Category from '../components/Category';
+import GearUp from '../components/GearUp';
+import Celebrity from '../components/Celebrity';
+import HimHerPage from '../components/HimHerPage';
+import Subcriptions from '../components/Home/Subcriptions';
 
 const Home = () => {
   return (
     <>
       <Hero />
-      <HimHerPage/>
-      <Category/>
-      {/* <Suggestions /> */}
+      <HimHerPage />
+      <Category />
       <GearUp />
-      <Celebrity/>
+      <Celebrity />
+      <Subcriptions/>
     </>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

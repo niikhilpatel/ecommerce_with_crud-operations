@@ -1,60 +1,99 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const BuyPage = () => {
-    const location = useLocation();
-    const navigate = useNavigate();
-    const initialItem = location.state?.item ? { ...location.state.item, quantity: location.state.item.quantity || 1, total: (location.state.item.quantity || 1) * location.state.item.price } : null;
-    const [item, setItem] = useState(initialItem);
-
-    const handleGoBack = () => {
-        window.history.back();
+    const loadScript = (src) => {
+        return new Promise((resolve) => {
+            const script = document.createElement("script");
+            script.src = src;
+            script.onload = () => resolve(true);
+            script.onerror = () => resolve(false);
+            document.body.appendChild(script);
+        });
     };
 
-    const increaseQuantity = () => {
-        setItem(prevItem => ({ ...prevItem, quantity: prevItem.quantity + 1, total: (prevItem.quantity + 1) * prevItem.price }));
-    };
+    const onPayment = async (price, itemName) => {
+        try {
+            const res = await axios.post("http://localhost:5000/api/createOrder", { amount: price });
+            const data = res.data;
 
-    const decreaseQuantity = () => {
-        if (item.quantity > 1) {
-            setItem(prevItem => ({ ...prevItem, quantity: prevItem.quantity - 1, total: (prevItem.quantity - 1) * prevItem.price }));
+            if (!window.Razorpay) await loadScript("https://checkout.razorpay.com/v1/checkout.js");
+
+            const options = {
+                key: "rzp_test_rxZrYzXPmiXGFy",
+                amount: price * 100,
+                currency: "INR",
+                name: itemName,
+                order_id: data.id,
+                handler: async function (response) {
+                    const verificationRes = await axios.post("http://localhost:5000/api/verifyPayment", {
+                        order_id: response.razorpay_order_id,
+                        payment_id: response.razorpay_payment_id,
+                        signature: response.razorpay_signature,
+                    });
+
+                    if (verificationRes.data.success) {
+                        alert("Payment Successful");
+                    } else {
+                        alert("Payment Failed");
+                    }
+                },
+                theme: { color: "#3399cc" },
+            };
+
+            const paymentObject = new window.Razorpay(options);
+            paymentObject.open();
+        } catch (error) {
+            console.error("Error processing payment", error);
         }
     };
 
-    const removeItem = () => {
-        setItem(null);
+    useEffect(() => {
+        loadScript("https://checkout.razorpay.com/v1/checkout.js");
+    }, []);
+
+    const location = useLocation();
+    const navigate = useNavigate();
+    const initialItem = location.state?.item
+        ? { ...location.state.item, quantity: location.state.item.quantity || 1, total: (location.state.item.quantity || 1) * location.state.item.price }
+        : null;
+    const [item, setItem] = useState(initialItem);
+
+    const deleteProduct = async () => {
+        if (!item) return;
+
+        try {
+            await axios.delete(`http://localhost:5000/api/cards/${item._id}`);
+            alert("Product deleted successfully!");
+            navigate("/shop"); // Redirect after deletion
+        } catch (error) {
+            console.error("Error deleting product:", error);
+            alert("Failed to delete product.");
+        }
     };
 
     return (
-        <div className="p-5">
-            <div className="flex gap-5 items-center">
-                <h2 className="text-xl font-bold">Few steps away from the purchase</h2>
-                <button onClick={handleGoBack} className="bg-green-700 text-white px-2 py-1 rounded-lg">Go Back</button>
-            </div>
+        <div className="p-5 h-screen">
+            <h2 className="text-xl font-bold">Few steps away from the purchase</h2>
             {item ? (
-                <div className="flex justify-between m-10">
-                    <div>
-                        <h3 className="font-bold mb-3 text-4xl">{item.title}</h3>
-                        <div className="flex gap-5">
-                            <img src={item.image} alt={item.title} className="w-2/3 rounded-xl" />
+                <div className="mt-10 flex flex-col justify-between md:flex-row">
+                    <div className="flex justify-around gap-10">
+                        <div>
+                            <h3 className="font-bold mb-3 text-4xl">{item.title}</h3>
+                            <img src={item.image} alt={item.title} className="w-2/3 rounded-xl mt-7" />
+                        </div>
+                        <div className="space-y-5">
                             <p className="mt-2 text-2xl font-semibold">{item.description}</p>
+                            <p className="font-bold">Rs. {item.total}</p>
                         </div>
                     </div>
-
-                    <div className="mr-10">
-                        <p>Quantity: {item.quantity}</p>
-                        <p className="font-bold">Rs. {item.total}</p>
-                        <div className="flex items-center gap-2 mt-2">
-                            <button onClick={decreaseQuantity} className="bg-gray-300 px-2 py-1 rounded-lg">-</button>
-                            <span>{item.quantity}</span>
-                            <button onClick={increaseQuantity} className="bg-gray-300 px-2 py-1 rounded-lg">+</button>
+                    <div className="space-y-5 mr-15 gap-5">
+                        <div className="flex justify-between font-semibold">
+                            <h6>Select Size</h6>
+                            <a href="https://www.nike.com/in/size-fit/unisex-footwear-mens-based" className="text-red-400">Size Chart</a>
                         </div>
-                        <div className="mt-3">
-                            <div className="flex justify-between font-semibold">
-
-                                <h6>Select Size</h6>
-                                <a href="https://www.nike.com/in/size-fit/unisex-footwear-mens-based">Size Chart</a>
-                            </div>
+                        <div>
                             <ul className="grid grid-cols-2 gap-2 cursor-pointer mt-2">
                                 <li className="border-1 border-blue-200 rounded-xl p-1 text-center hover:bg-blue-200">UK 6</li>
                                 <li className="border-1 border-blue-200 rounded-xl p-1 text-center hover:bg-blue-200">UK 7</li>
@@ -63,22 +102,14 @@ const BuyPage = () => {
                                 <li className="border-1 border-blue-200 rounded-xl p-1 text-center hover:bg-blue-200">UK 10</li>
                             </ul>
                         </div>
-                        <button onClick={() => createRazorpayOrder(100)} className="bg-green-600 text-white p-2 rounded-lg mt-3">Proceed to Payment</button>
-                        {responseId && <p>{responseId}</p>}
-                        <form onSubmit={paymentFetch}>
-                            <input type="text" name="paymentId"/>
-                            <button type="submit">Fetch Payment</button>
-                            {responseState.length !== 0 && (
-                                <ul>
-                                    <li>Amount: {response.amount /100} Rs.</li>
-                                    <li>Currency: {response.currency}</li>
-                                    <li>Status: {response.status}</li>
-                                    <li>Method: {response.method}</li>
-                                </ul>
-                            )}
-                            
-                        </form>
-                        <button onClick={removeItem} className="bg-red-600 text-white px-3 py-1 rounded-lg mt-3 ml-2">Remove Item</button>
+                        <div className="space-x-3">
+                        <button onClick={() => onPayment(item.total, item.title)} className="bg-green-600 text-white p-2 rounded-lg mt-3">
+                            Proceed to Payment
+                        </button>
+                        <button onClick={deleteProduct} className="bg-red-600 text-white p-2 rounded-lg mt-3">
+                            Delete Product
+                        </button>
+                        </div>
                     </div>
                 </div>
             ) : (
