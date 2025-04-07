@@ -15,28 +15,30 @@ const BuyPage = () => {
 
     const onPayment = async (price, itemName) => {
         try {
-            const res = await axios.post("http://localhost:5000/api/createOrder", { amount: price });
+            // CORRECTED URL
+            const res = await axios.post("http://localhost:5000/api/payments/createOrder", { amount: price });
             const data = res.data;
 
             if (!window.Razorpay) await loadScript("https://checkout.razorpay.com/v1/checkout.js");
 
             const options = {
-                key: "rzp_test_rxZrYzXPmiXGFy",
+                key: "rzp_test_rxZrYzXPmiXGFy", // Test Key ID
                 amount: price * 100,
                 currency: "INR",
                 name: itemName,
                 order_id: data.id,
                 handler: async function (response) {
-                    const verificationRes = await axios.post("http://localhost:5000/api/verifyPayment", {
+                    // CORRECTED URL
+                    const verificationRes = await axios.post("http://localhost:5000/api/payments/verifyPayment", {
                         order_id: response.razorpay_order_id,
                         payment_id: response.razorpay_payment_id,
                         signature: response.razorpay_signature,
                     });
 
                     if (verificationRes.data.success) {
-                        alert("Payment Successful");
+                        alert("🎉 Payment Successful!");
                     } else {
-                        alert("Payment Failed");
+                        alert("❌ Payment Failed!");
                     }
                 },
                 theme: { color: "#3399cc" },
@@ -66,7 +68,7 @@ const BuyPage = () => {
         try {
             await axios.delete(`http://localhost:5000/api/cards/${item._id}`);
             alert("Product deleted successfully!");
-            navigate("/shop"); // Redirect after deletion
+            navigate("/shop");
         } catch (error) {
             console.error("Error deleting product:", error);
             alert("Failed to delete product.");
