@@ -9,6 +9,7 @@ import Sign from "./components/Sign"; // Sign-in page
 import ShopPage from "./pages/ShopPage"; // Import ShopPage
 import Wishlist from "./components/Home/Wishlist"; // Import Wishlist page
 import { CartProvider } from "./context/CartContext";
+import AdminDashboard from "./pages/AdminDashboard";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path="/cart" element={<Cart />} />
           <Route path="/wishlist" element={<Wishlist />} /> {/* Wishlist Page */}
           <Route path="/sign-in" element={<Sign />} />
+          <Route path="/admin" element={<AdminDashboard />} />
         </Routes>
         <Footer />
       </Router>
