@@ -83,7 +83,7 @@ const BuyPage = () => {
                     <div className="flex justify-around gap-10">
                         <div>
                             <h3 className="font-bold mb-3 text-4xl">{item.title}</h3>
-                            <img src={item.image} alt={item.title} className="w-2/3 rounded-xl mt-7" />
+                            <img src={item.image} alt={item.title} className="w-120 rounded-xl mt-7" />
                         </div>
                         <div className="space-y-5">
                             <p className="mt-2 text-2xl font-semibold">{item.description}</p>

@@ -10,6 +10,8 @@ import ShopPage from "./pages/ShopPage"; // Import ShopPage
 import Wishlist from "./components/Home/Wishlist"; // Import Wishlist page
 import { CartProvider } from "./context/CartContext";
 import AdminDashboard from "./pages/AdminDashboard";
+import HimPage from "./pages/HimPage";
+import HerPage from "./pages/HerPage";
 
 function App() {
   return (
@@ -19,6 +21,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/shop" element={<ShopPage />} />
+          <Route path="/himpage" element={<HimPage />} />
+          <Route path="/herpage" element={<HerPage />} />
           <Route path="/buy/:id" element={<BuyPage />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/wishlist" element={<Wishlist />} /> {/* Wishlist Page */}

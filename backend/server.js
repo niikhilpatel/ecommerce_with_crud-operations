@@ -26,7 +26,7 @@ app.use("/api/payments", paymentRoutes);
 app.use("/api/cards", cardRoutes); // Fixed route casing
 app.use("/api/users", require("./routes/user.routes"));
 
-app.use("/admin", adminRoutes);
+app.use("/api/admin", adminRoutes);
 // Error Handling Middleware
 app.use(errorHandler); 
 

@@ -1,13 +1,12 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
-const cardSchema = new mongoose.Schema({
+const CardSchema = new mongoose.Schema({
   title: { type: String, required: true },
-  description: { type: String, required: true },
-  image: { type: String, required: true },
-  price: {type: String, required: true}
+  description: { type: String },
+  image: { type: String },
+  price: { type: String },
+  category: { type: String, enum: ['male', 'female', 'kids'], default: '' },  // 🔥 add this
+  gear: { type: String, enum: ['none', 'running', 'training', 'football', 'basketball', 'studio'], default: '' } // 🔥 and this
 });
 
-
-
-const Card = mongoose.model("Card", cardSchema);
-module.exports = Card;
+module.exports = mongoose.model('Card', CardSchema);
