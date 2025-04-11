@@ -7,13 +7,7 @@ const Cards = () => {
     const { addToCart, cart, removeFromCart } = useCart();
     const navigate = useNavigate();
     const [cards, setCards] = useState([]);
-    // const [showForm, setShowForm] = useState(false);
-    const [newProduct, setNewProduct] = useState({
-        title: "",
-        description: "",
-        price: "",
-        image: "",
-    });
+    const [sortOption, setSortOption] = useState("popularity");
 
     useEffect(() => {
         fetchCards();
@@ -28,53 +22,88 @@ const Cards = () => {
         }
     };
 
-    const handleChange = (e) => {
-        setNewProduct({ ...newProduct, [e.target.name]: e.target.value });
-    };
+    const handleSort = (option) => {
+        setSortOption(option);
+        let sortedCards = [...cards];
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            const response = await axios.post("http://localhost:5000/api/cards", newProduct);
-            setCards([...cards, response.data]); // Update UI with new product
-            setShowForm(false); // Close the form
-            setNewProduct({ title: "", description: "", price: "", image: "" }); // Reset form fields
-        } catch (error) {
-            console.error("Error adding product:", error);
+        switch (option) {
+            case 'priceAsc':
+                sortedCards.sort((a, b) => a.price - b.price);
+                break;
+            case 'priceDesc':
+                sortedCards.sort((a, b) => b.price - a.price);
+                break;
+            case 'popularity':
+                sortedCards.sort((a, b) => (b.popularity || 0) - (a.popularity || 0));
+                break;
+            case 'relevance':
+                sortedCards.sort((a, b) => (b.relevanceScore || 0) - (a.relevanceScore || 0));
+                break;
+            default:
+                break;
         }
+
+        setCards(sortedCards);
     };
 
     const buyNow = (item) => {
         navigate(`/buy/${item._id}`, { state: { item } });
     };
 
+    const goToCart = () => {
+        navigate("/cart");
+    }
+
+
     return (
         <div className="min-h-screen bg-gray-100 p-10">
             <h1 className="text-3xl font-bold text-center mb-6">Featured Products</h1>
-            <div>
-                <ul className="flex gap-5 p-2">
-                    <li>Sort by</li>
-                    <li>Popularity</li>
-                    <li>Price - Low to High</li>
-                    <li>Price - High to Low</li>
-                    <li>Relevance</li>
-                </ul>
-            </div>
-            
-            <div className="mt-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                {cards.map((card) => (
-                    <div key={card._id} className="bg-white shadow-lg rounded-lg p-5 text-center flex flex-col justify-between items-center">
-                        <img src={card.image} alt={card.title} className="w-full h-56 object-cover rounded-lg mb-4" />
-                        <h2 className="text-xl font-semibold">{card.title}</h2>
-                        <p className="text-gray-600">{card.description}</p>
-                        <p className="text-lg font-bold mt-2">Rs. {card.price}</p>
 
-                        <button
-                            className="mt-4 bg-yellow-400 text-black px-4 py-2 rounded-lg hover:bg-yellow-500 transition"
-                            onClick={() => buyNow(card)}
-                        >
-                            Buy Now
-                        </button>
+            {/* Sort Options */}
+            <div className="flex justify-center mb-6">
+                <select
+                    value={sortOption}
+                    onChange={(e) => handleSort(e.target.value)}
+                    className="p-2 border rounded"
+                >
+                    <option value="popularity">Sort by Popularity</option>
+                    <option value="priceAsc">Price: Low to High</option>
+                    <option value="priceDesc">Price: High to Low</option>
+                    <option value="relevance">Relevance</option>
+                </select>
+            </div>
+
+            {/* Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                {cards.map((card) => (
+                    <div
+                        key={card._id}
+                        className="flex flex-col justify-between bg-white rounded shadow hover:shadow-lg transition"
+                    >
+                        <img
+                            src={card.image}
+                            alt={card.title}
+                            className="w-full h-72 object-cover rounded mb-4"
+                        />
+                        <h2 className="text-xl font-semibold mb-2 px-4">{card.title}</h2>
+                        <p className="text-gray-600 mb-4 px-4">{card.description}</p>
+                        <div className="flex justify-between items-center  pb-4 px-4">
+                            <span className="text-lg font-bold">Rs. {card.price}</span>
+                            <div className="flex space-x-2">
+                                {/* <button
+                                    onClick={() => goToCart()}
+                                    className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
+                                >
+                                    Add to Cart
+                                </button> */}
+                                <button
+                                    onClick={() => buyNow(card)}
+                                    className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600"
+                                >
+                                    Buy Now
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 ))}
             </div>

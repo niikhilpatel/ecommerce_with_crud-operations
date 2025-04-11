@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'; // ✅ For navigation
 
-const HimPage = () => {
+const KidsPage = () => {
   const [products, setProducts] = useState([]);
-  const navigate = useNavigate();
+  const navigate = useNavigate(); // ✅ Hook to navigate
 
   useEffect(() => {
-    const fetchMaleProducts = async () => {
+    const fetchKidsProducts = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/cards?category=male');
+        const response = await axios.get('http://localhost:5000/api/cards?category=kids');
         console.log('API Response:', response.data);
 
         if (Array.isArray(response.data)) {
@@ -20,25 +20,26 @@ const HimPage = () => {
           console.error('Unexpected API response format:', response.data);
         }
       } catch (error) {
-        console.error('Error fetching male products:', error);
+        console.error('Error fetching kids products:', error);
       }
     };
 
-    fetchMaleProducts();
+    fetchKidsProducts();
   }, []);
 
-  const buyNow = (product) => {
-    navigate(`/buy/${product._id}`, { state: { item: product } });
+  // ✅ Function to handle "Buy" button click
+  const handleCheckDetails = (item) => {
+    navigate(`/buy/${item._id}`, { state: { item } });
   };
 
   return (
-    <div className="px-5 sm:px-10 md:px-20 py-5">
-      <h1 className="text-3xl font-bold mb-5">Men's Section</h1>
+    <div className="px-20 py-5">
+      <h1 className="text-3xl font-bold mb-5">Kids' Section</h1>
 
       <div className="space-y-2 mb-8">
-        <h2 className="text-xl font-semibold">Shoes for Men: Trendy, Durable & Comfortable</h2>
-        <p>Find the perfect shoes for men that balance durability, fashion, and ease of wear.</p>
-        <p>Our collection of shoes for men ensures a stylish and comfortable experience every day.</p>
+        <h2 className="text-xl font-semibold">Trendy and Comfy Footwear for Kids</h2>
+        <p>Shop the latest stylish and durable shoes designed especially for kids.</p>
+        <p>Our collection focuses on playful designs, comfort, and everyday adventures.</p>
       </div>
 
       <ul className="flex gap-5 text-lg font-semibold mb-10">
@@ -54,7 +55,7 @@ const HimPage = () => {
           products.map((product) => (
             <div
               key={product._id}
-              className="border rounded-lg p-4 shadow hover:shadow-lg transition duration-300 flex flex-col justify-between"
+              className="border rounded-lg p-4 shadow hover:shadow-lg transition duration-300"
             >
               <img
                 src={product.image}
@@ -63,22 +64,23 @@ const HimPage = () => {
               />
               <h3 className="text-lg font-semibold mt-4">{product.title}</h3>
               <p className="text-gray-600 mt-2">{product.description}</p>
-              <p className="text-blue-600 font-bold mt-2">${product.price}</p>
+              <p className="text-green-600 font-bold mt-2">Rs. {product.price}</p>
 
+              {/* ✅ Buy Button */}
               <button
-                onClick={() => buyNow(product)}
-                className="mt-4 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition"
+                onClick={() => handleCheckDetails(product)}
+                className="mt-4 w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 rounded"
               >
                 Buy Now
               </button>
             </div>
           ))
         ) : (
-          <p>Loading products...</p>
+          <p>No products available for kids.</p>
         )}
       </div>
     </div>
   );
 };
 
-export default HimPage;
+export default KidsPage;

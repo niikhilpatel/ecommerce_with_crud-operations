@@ -10,20 +10,20 @@ import img14 from '../assets/celebrity/img1.4.webp';
 
 const Celebrity = () => {
     return (
-        <div className='p-2 md:p-10'>
+        <div className='mx-5 mt-10 p-2 md:p-10'>
             <h2 className='text-2xl font-bold'>Celebrity Approved Shoes</h2>
-            <div className='mt-5 md:mt-10 flex items-center gap-10'>
+            <div className='mt-5 md:mt-10 flex flex-col md:flex-row items-center gap-10'>
                 {/* Left Side - Single Large Image */}
-                <div className='w-1/2'>
+                <div className='md:w-1/2'>
                     <img src={img1} className='w-full h-auto rounded-lg shadow-lg' alt="Celebrity" />
                 </div>
-                <div className='w-1/2 grid grid-cols-2'>
+                <div className='md:w-1/2 grid grid-cols-2'>
                     <img src={img11} className='w-full h-auto rounded-lg shadow-md' alt="Shoe 1" />
                     <img src={img12} className='w-full h-auto rounded-lg shadow-md' alt="Shoe 2" />
                     <img src={img13} className='w-full h-auto rounded-lg shadow-md' alt="Shoe 3" />
                     <img src={img14} className='w-full h-auto rounded-lg shadow-md' alt="Shoe 4" />
                 </div>
-                <div className='w-1/2'>
+                <div className='md:w-1/2'>
                     <img src={img3} className='w-full h-auto rounded-lg shadow-lg' alt="Celebrity" />
                 </div>
             </div>

@@ -5,8 +5,8 @@ const CardSchema = new mongoose.Schema({
   description: { type: String },
   image: { type: String },
   price: { type: String },
-  category: { type: String, enum: ['male', 'female', 'kids'], default: '' },  // 🔥 add this
-  gear: { type: String, enum: ['none', 'running', 'training', 'football', 'basketball', 'studio'], default: '' } // 🔥 and this
+  category: { type: String, enum: ['male', 'female', 'kids'], default: '' },
+  gear: { type: String, enum: ['none', 'running', 'training', 'football', 'basketball', 'studio'], default: '' }
 });
 
 module.exports = mongoose.model('Card', CardSchema);

@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom'; // ✅ Import this
 
 const HerPage = () => {
   const [products, setProducts] = useState([]);
+  const navigate = useNavigate(); // ✅ Hook for navigation
 
   useEffect(() => {
-    const fetchMaleProducts = async () => {
+    const fetchFemaleProducts = async () => {
       try {
         const response = await axios.get('http://localhost:5000/api/cards?category=female');
         console.log('API Response:', response.data);
@@ -18,21 +20,26 @@ const HerPage = () => {
           console.error('Unexpected API response format:', response.data);
         }
       } catch (error) {
-        console.error('Error fetching male products:', error);
+        console.error('Error fetching female products:', error);
       }
     };
 
-    fetchMaleProducts();
+    fetchFemaleProducts();
   }, []);
 
+  // ✅ Function to handle Check Details button click
+  const handleCheckDetails = (item) => {
+    navigate(`/buy/${item._id}`, { state: { item } });
+  };
+
   return (
-    <div className="px-20 py-5">
+    <div className="px-5 md:px-20 py-5">
       <h1 className="text-3xl font-bold mb-5">Women's Section</h1>
 
       <div className="space-y-2 mb-8">
-        <h2 className="text-xl font-semibold">Shoes for Men: Trendy, Durable & Comfortable</h2>
-        <p>Find the perfect shoes for men that balance durability, fashion, and ease of wear.</p>
-        <p>Our collection of shoes for men ensures a stylish and comfortable experience every day.</p>
+        <h2 className="text-xl font-semibold">Shoes for Women: Trendy, Durable & Comfortable</h2>
+        <p>Find the perfect shoes for women that balance durability, fashion, and ease of wear.</p>
+        <p>Our collection ensures a stylish and comfortable experience every day.</p>
       </div>
 
       <ul className="flex gap-5 text-lg font-semibold mb-10">
@@ -48,7 +55,7 @@ const HerPage = () => {
           products.map((product) => (
             <div
               key={product._id}
-              className="border rounded-lg p-4 shadow hover:shadow-lg transition duration-300"
+              className="border rounded-lg p-4 shadow hover:shadow-lg transition duration-300 flex flex-col items-center justify-between"
             >
               <img
                 src={product.image}
@@ -58,10 +65,18 @@ const HerPage = () => {
               <h3 className="text-lg font-semibold mt-4">{product.title}</h3>
               <p className="text-gray-600 mt-2">{product.description}</p>
               <p className="text-green-600 font-bold mt-2">Rs. {product.price}</p>
+
+              {/* ✅ Button to navigate */}
+              <button
+                onClick={() => handleCheckDetails(product)}
+                className="mt-4 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
+              >
+                Buy Now
+              </button>
             </div>
           ))
         ) : (
-          <p className="text-gray-500 col-span-full text-center">No products found.</p>
+          <p>Loading products...</p>
         )}
       </div>
     </div>

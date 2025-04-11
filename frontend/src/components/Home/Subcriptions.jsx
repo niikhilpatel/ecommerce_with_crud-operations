@@ -16,11 +16,11 @@ const Subscriptions = () => {
     }
 
     return (
-        <div className=" mx-10 my-10 p-6 bg-white shadow-lg rounded-lg">
-            <form onSubmit={handleSubmit} className="p-10 flex justify-between space-x-4">
+        <div className="mx-5 md:mx-10 my-10 p-6 bg-white shadow-lg rounded-lg">
+            <form onSubmit={handleSubmit} className="p-5 md:p-10 flex md:flex-row flex-col justify-between space-x-4">
                 <div className="flex-1">
 
-                    <label className=" text-4xl font-semibold text-gray-700">
+                    <label className="text-2xl md:text-4xl font-semibold text-gray-700">
                         Subscribe to Newsletter to get <span className="text-green-500">product</span> update
 
                     </label>

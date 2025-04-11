@@ -40,7 +40,7 @@ const Auth = () => {
         if (validateForm()) {
             try {
                 const url = isSignUp 
-                    ? "http://localhost:5000/api/auth/register" 
+                    ? "http://localhost:5000/api/auth/signup" 
                     : "http://localhost:5000/api/auth/login";
                     
                 const response = await fetch(url, {
@@ -54,12 +54,8 @@ const Auth = () => {
                 const data = await response.json();
 
                 if (response.ok) {
-                    if (!isSignUp) {
-                        // 🧠 Save user only after login
-                        localStorage.setItem('user', JSON.stringify(data.user));
-                    }
                     alert(isSignUp ? "Signup successful!" : "Login successful!");
-                    navigate("/"); // 👈 Redirect to home
+                    navigate("/dashboard");
                 } else {
                     alert(data.message || (isSignUp ? "Signup failed" : "Login failed"));
                 }
@@ -80,55 +76,51 @@ const Auth = () => {
                     <form onSubmit={handleSubmit} className="space-y-4">
                         {isSignUp && (
                             <div>
-                                <label className="block text-gray-700 mb-1" htmlFor="name">Name</label>
+                                <label className="block text-gray-700 mb-1">Name</label>
                                 <input
                                     type="text"
-                                    id="name"
                                     name="name"
                                     value={formData.name}
                                     onChange={handleChange}
-                                    className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                                    className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-green-400"
                                 />
                                 {errors.name && <p className="text-red-500 text-sm">{errors.name}</p>}
                             </div>
                         )}
                         <div>
-                            <label className="block text-gray-700 mb-1" htmlFor="email">Email</label>
+                            <label className="block text-gray-700 mb-1">Email</label>
                             <input
                                 type="email"
-                                id="email"
                                 name="email"
                                 value={formData.email}
                                 onChange={handleChange}
-                                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                                className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-green-400"
                             />
                             {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
                         </div>
                         <div>
-                            <label className="block text-gray-700 mb-1" htmlFor="password">Password</label>
+                            <label className="block text-gray-700 mb-1">Password</label>
                             <input
                                 type="password"
-                                id="password"
                                 name="password"
                                 value={formData.password}
                                 onChange={handleChange}
-                                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                                className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-green-400"
                             />
                             {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
                         </div>
+
                         <button
                             type="submit"
-                            className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg"
+                            className="w-full bg-green-500 text-white py-2 rounded hover:bg-green-600 transition"
                         >
                             {isSignUp ? "Sign Up" : "Login"}
                         </button>
                     </form>
-                    <p className="text-center mt-4">
-                        {isSignUp ? "Already have an account?" : "Don't have an account?"}
-                        <button
-                            onClick={toggleMode}
-                            className="text-blue-500 hover:underline ml-1"
-                        >
+
+                    <p className="text-center mt-4 text-sm">
+                        {isSignUp ? "Already have an account?" : "Don't have an account?"}{" "}
+                        <button onClick={toggleMode} className="text-blue-500 hover:underline">
                             {isSignUp ? "Login" : "Sign Up"}
                         </button>
                     </p>
